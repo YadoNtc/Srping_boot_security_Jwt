@@ -18,7 +18,7 @@ public class JwtProvider {
     @Value("congnguyenthanh")
     private String jwtSecret;
 
-    @Value("86400")
+    @Value("864000")
     private int jwtExpiration;
 
     // Tao jwt Token theo thong tin user

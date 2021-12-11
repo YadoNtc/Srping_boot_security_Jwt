@@ -9,6 +9,7 @@ import com.springsecurityJwt.request.LoginForm;
 import com.springsecurityJwt.request.SignupForm;
 import com.springsecurityJwt.response.JwtResponse;
 import com.springsecurityJwt.security.jwt.JwtProvider;
+import com.springsecurityJwt.security.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,18 +61,20 @@ public class AuthRestApi {
         // Tao token jwt
         String jwt = jwtProvider.generateJwtToken(authentication);
 
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         return ResponseEntity.ok(new JwtResponse(jwt));
     }
 
     @PostMapping("/signup")
     public ResponseEntity<String> registerUser(@Valid @RequestBody SignupForm signupRequest) {
         if (userRepository.existsByUserName(signupRequest.getUserName())) {
-            return new ResponseEntity<String>("Fail: User name is already taken!",
+            return new ResponseEntity<String>("Fail: User name is already used!",
                     HttpStatus.BAD_REQUEST);
         }
 
         if (userRepository.existsByEmail(signupRequest.getEmail())) {
-            return new ResponseEntity<String>("Fail: email is already taken!",
+            return new ResponseEntity<String>("Fail: email is already used!",
                     HttpStatus.BAD_REQUEST);
         }
 

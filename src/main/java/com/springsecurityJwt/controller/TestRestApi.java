@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestRestApi {
 
     @GetMapping("/api/test/user")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     public String userAccess() {
-        return ">> User Contents";
+        return ">> Thís is User's page";
     }
 
     @GetMapping("/api/test/pm")
-    @PreAuthorize("hasRole('PM') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_PM')")
     public String pmAccess() {
-        return ">>> Board Manager Project";
+        return ">>> Thís is PM's page";
     }
 
     @GetMapping("/api/test/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public String adminAccess() {
-        return ">>> Admin Content";
+        return ">>> Thís is Admin's page";
     }
 }
